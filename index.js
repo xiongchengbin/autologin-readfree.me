@@ -85,10 +85,19 @@ function redirected(location) {
             // console.log('No more data in response.');
             const location = res.headers.location;
             if (location && location.indexOf('http') === -1) {
+                console.log('重定向到首页');
                 res.headers['set-cookie'] && parseCookie(res.headers['set-cookie']);
                 redirected('http://readfree.me' + location);
+
+                if (location === '/accounts/checkin/') {
+                    console.log('５ｓ后重定向到首页，检查结束后重定向');
+                    setTimeout(function () {
+                        redirected('http://readfree.me/');
+                    }, 5000);
+                }
             }
             else if (location) {
+                console.log('重定向到:', location);
                 redirected(location);
             }
         });
